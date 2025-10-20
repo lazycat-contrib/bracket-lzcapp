@@ -1,0 +1,21 @@
+params:
+  - id: admin_email
+    type: string
+    name: "admin email"
+    default_value: admin@lazycat.cloud
+    description: "the email of the admin"
+
+  - id: admin_password
+    type: string
+    name: "admin password"
+    default_value: Lazycat#123
+    description: "the password of the admin,should match the password policy,such as length at least 8 characters, containing uppercase letters, lowercase letters, numbers and special characters"
+
+locales:
+  zh:
+    admin_email:
+      name: "管理员邮箱"
+      description: "管理员邮箱"
+    admin_password:
+      name: "管理员密码"
+      description: "管理员密码,应该匹配密码策略，例如长度至少8位，包含大写字母、小写字母、数字和特殊字符"

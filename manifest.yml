@@ -1,0 +1,75 @@
+name: Bracket
+package: community.lazycat.app.bracket
+version: 2.2.5
+min_os_version: 1.3.8
+description: "自托管赛事系统"
+homepage: https://github.com/evroon/bracket
+author: evroon
+application:
+  subdomain: bracket
+  background_task: true
+  public_path:
+    - /
+
+  upstreams:
+    - location: /
+      domain_prefix: api
+      backend: http://bracket-backend:8400/
+
+    - location: /
+      backend: http://bracket-frontend:3000/
+
+services:
+  bracket-backend:
+    container_name: bracket-backend
+    # ghcr.io/evroon/bracket-backend
+    image: registry.lazycat.cloud/czyt/evroon/bracket-backend:10f6dfae98b8e0b1
+    environment:
+      - ENVIRONMENT=DEVELOPMENT
+      - AUTO_RUN_MIGRATIONS=true
+      - ADMIN_EMAIL={{.U.admin_email}}
+      - ADMIN_PASSWORD={{.U.admin_password}}
+      - CORS_ORIGINS=https://{{.S.AppDomain}}
+      - PG_DSN=postgresql://bracket_dev:bracket_dev@postgres:5432/bracket_dev
+    ports:
+      - 8400:8400
+    depends_on:
+      - postgres
+    health_check:
+      test:
+      disable: true
+      start_period: 90s
+
+  bracket-frontend:
+    container_name: bracket-frontend
+    # ghcr.io/evroon/bracket-frontend
+    image: registry.lazycat.cloud/czyt/evroon/bracket-frontend:0fd0b2be13ad2ddd
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=https://api-{{.S.AppDomain}}
+      - NEXT_PUBLIC_HCAPTCHA_SITE_KEY=10000000-ffff-ffff-ffff-000000000001
+    health_check:
+      test:
+      disable: true
+      start_period: 90s
+
+  postgres:
+    image: registry.lazycat.cloud/czyt/library/postgres:bb84b585f0ed5342
+    environment:
+      - POSTGRES_DB=bracket_dev
+      - POSTGRES_PASSWORD=bracket_dev
+      - POSTGRES_USER=bracket_dev
+    binds:
+      - /lzcapp/var/data:/var/lib/postgresql/data
+    health_check:
+      test:
+        - CMD-SHELL
+        - pg_isready -U bracket_dev
+      start_period: 90s
+
+locales:
+  zh:
+    name: "Bracket"
+    description: "自托管赛事系统"
+  en:
+    name: "Bracket"
+    description: "Selfhosted tournament system"
