@@ -1,0 +1,14 @@
+package: community.lazycat.app.bracket
+version: 2.2.5
+name: Bracket
+description: "自托管赛事系统"
+min_os_version: "1.5.0"
+homepage: https://github.com/evroon/bracket
+author: evroon
+locales:
+  zh:
+    name: "Bracket"
+    description: "自托管赛事系统"
+  en:
+    name: "Bracket"
+    description: "Selfhosted tournament system"
