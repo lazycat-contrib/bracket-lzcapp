@@ -3,19 +3,16 @@ application:
   background_task: true
   public_path:
     - /
-
   upstreams:
     - location: /
       domain_prefix: api
       backend: http://bracket-backend:8400/
-
     - location: /
       backend: http://bracket-frontend:3000/
-
 services:
   bracket-backend:
     # upstream: ghcr.io/evroon/bracket-backend:v2.2.5
-    image: ghcr.io/evroon/bracket-backend:v2.2.5
+    image: registry.lazycat.cloud/czyt/evroon/bracket-backend:d5e516f6576e9162
     environment:
       - ENVIRONMENT=DEVELOPMENT
       - AUTO_RUN_MIGRATIONS=true
@@ -28,20 +25,18 @@ services:
     healthcheck:
       disable: true
       start_period: 90s
-
   bracket-frontend:
     # upstream: ghcr.io/evroon/bracket-frontend:v2.2.5
-    image: ghcr.io/evroon/bracket-frontend:v2.2.5
+    image: registry.lazycat.cloud/czyt/evroon/bracket-frontend:923f81dadaf7fffd
     environment:
       - NEXT_PUBLIC_API_BASE_URL=https://api-{{.S.AppDomain}}
       - NEXT_PUBLIC_HCAPTCHA_SITE_KEY=10000000-ffff-ffff-ffff-000000000001
     healthcheck:
       disable: true
       start_period: 90s
-
   postgres:
     # upstream: library/postgres:16.15-alpine
-    image: library/postgres:16.15-alpine
+    image: registry.lazycat.cloud/czyt/library/postgres:aa0ae8e7056ea3ea
     environment:
       - POSTGRES_DB=bracket_dev
       - POSTGRES_PASSWORD={{ stable_secret "db_password" }}
