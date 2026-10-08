@@ -1,4 +1,5 @@
 package: community.lazycat.app.bracket
+license: AGPL-3.0
 version: 2.2.5
 name: Bracket
 description: "自托管赛事系统"
