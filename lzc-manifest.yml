@@ -35,8 +35,8 @@ services:
       disable: true
       start_period: 90s
   postgres:
-    # upstream: library/postgres:16.15-alpine
-    image: registry.lazycat.cloud/czyt/library/postgres:aa0ae8e7056ea3ea
+    # upstream: library/postgres:16.16-alpine
+    image: registry.lazycat.cloud/czyt/library/postgres:850a6b6ef2c870d7
     environment:
       - POSTGRES_DB=bracket_dev
       - POSTGRES_PASSWORD={{ stable_secret "db_password" }}
